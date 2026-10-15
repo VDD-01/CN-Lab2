@@ -1,1 +1,58 @@
+import socket
+import threading
+
+def server():
+    # Create TCP socket
+    server_socket = socket.socket(
+        socket.AF_INET,
+        socket.SOCK_STREAM
+    )
+
+    server_socket.bind(("127.0.0.1", 4900))
+
+    # Wait for client
+    server_socket.listen(1)
+
+    print("Server is waiting for client...")
+
+    conn, addr = server_socket.accept()
+
+
+
+
+    print("Client connected:", addr)
+
+    data = conn.recv(1024)
+
+    print("Client says:", data.decode())
+
+    conn.send("Hello from Server".encode())
+
+    # Close connection
+    conn.close()
+    server_socket.close()
+
+# Run server in background
+thread = threading.Thread(target=server)
+thread.start()
+
+
+# Above is the client, below is the server
+
+
+import socket
+
+
+# Create socket
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect to server
+client.connect(("localhost", 4900))
+
+client.send("Hello This is assignment 5 TCP".encode())
+
+data = client.recv(1024)
+print("Server:", data.decode())
+
+client.close()
 
